@@ -1,13 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
+import OrderScreen from './screens/OrderScreen'
+
 import './global.css'
+
+
 
 export default function App() {
   return (
-    <View className='flex-1 items-center justify-center bg-gray-900'>
-      <Text className='text-white text-2xl font-bold'>
-        Open up App.tsx to start working on your app!
-      </Text>
+    <View className='flex-1 bg-gray-900 p-4'>
+      <OrderScreen />
       <StatusBar style="auto" />
     </View>
   );
