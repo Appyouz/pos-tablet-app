@@ -13,6 +13,11 @@ export const PayButton = ({ total, onPaySuccess }: PayButtonProps) => {
       Alert.alert("Order Empty", "Please add items to the cart before paying.");
       return;
     }
+    // For web
+    // console.log(`[PAYMENT] Processing payment for $${total.toFixed(2)}`);
+    // onPaySuccess();
+
+
     // Display final total
     Alert.alert(
       "Payment Initiated",
