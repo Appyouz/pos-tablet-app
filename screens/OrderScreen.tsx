@@ -5,16 +5,49 @@ import { CategoryFilter } from '../components/CategoryFilter';
 import { ProductCard } from '../components/ProductCard';
 import { Product } from '../data/types';
 import { Search, ListFilter, LayoutGrid } from 'lucide-react-native';
+import { PayButton } from '../components/PayButton';
+import { CartItem } from '../components/CartItem';
+import { CartSummary } from '../components/CartSummary';
 
-const CartSection = () => (
-  <View className="flex-1 items-center justify-center bg-gray-800 rounded-xl">
-    <View className="p-4 rounded-lg bg-gray-700">
-      <Text className="text-white text-lg font-bold">
-        Cart Section (35% Width)
-      </Text>
+
+
+
+
+const MOCK_CART_ITEMS: CartItemType[] = [
+  {
+    id: 'p4', name: 'Buffalo Wings', price: 8.99, categoryId: 'appetizers',
+    image: 'url', inStock: true, quantity: 1, notes: 'Extra crispy', cartItemId: 'c1'
+  }
+];
+
+const CartSection = () => {
+  return (
+    <View className="flex-1 flex-col justify-between">
+      <View>
+        <Text className="text-gray-400 text-sm">Customer</Text>
+        <View className="flex-row items-center my-2">
+          <Text className="text-white text-lg font-bold mr-4">+ Add Customer</Text>
+          <Text className="text-gray-500 text-sm">ORDER_17639661833981</Text>
+        </View>
+        <Text className="text-white text-2xl font-bold mb-4">Cart</Text>
+
+        {/* Cart List */}
+        {/* TODO: Implement FlatList/ScrollView for this section*/}
+        <View className="max-h-1/2">
+          {MOCK_CART_ITEMS.map(item => (
+            <CartItem key={item.cartItemId} item={item} />
+          ))}
+        </View>
+      </View>
+
+      {/*  Summary and pay button */}
+      <View>
+        <CartSummary subtotal={8.99} tax={0.90} total={9.89} />
+        <PayButton total={9.89} />
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 const NUM_COLUMNS = 4;
 const ITEM_MARGIN = 16;
