@@ -20,30 +20,60 @@ const ITEM_MARGIN = 16;
 
 
 const CartSection = () => {
-  const cartCount = useCartStore((state) => state.cart.length);
-  const total = useCartStore((state) => state.getTotal());
+  // const cartCount = useCartStore((state) => state.cart.length);
+  // const total = useCartStore((state) => state.getTotal());
+  const cart = useCartStore((state) => state.cart);
+  const removeItem = useCartStore((state) => state.removeItem);
+
+  // Calculations of subtotal, total and tax
+  const getSubtotal = useCartStore((s) => s.getSubtotal);
+  const getTax = useCartStore((s) => s.getTax);
+  const getTotal = useCartStore((s) => s.getTotal);
+
+  const subtotal = getSubtotal();
+  const tax = getTax();
+  const total = getTotal();
   return (
     <View className="flex-1 flex-col justify-between p-4">
-      <View>
+      <View className="flex-shrink">
         <Text className="text-gray-400 text-sm">Customer</Text>
         <Text className="text-white text-lg font-bold mr-4 my-2">+ Add Customer</Text>
         <Text className="text-white text-2xl font-bold mb-4">Cart</Text>
-        <Text className="text-gray-400">Items in Cart: {cartCount}</Text>
 
-        {/* Cart List */}
-        <View className="max-h-1/2 mt-4">
-          {/* Placeholder*/}
-          <Text className="text-gray-500 italic">Cart items will appear here...</Text>
+        {/* Display cart items from Zustand */}
+        <FlatList
+          data={cart}
+          keyExtractor={(item) => item.id}
+          className="max-h-[60%] border-y border-gray-700/50"
+          contentContainerStyle={{ paddingVertical: 8 }}
+          renderItem={({ item }) => (
+            <CartItem
+              item={item}
+              onDelete={removeItem}
+            />
+          )}
+          ListEmptyComponent={() => (
+            <View className="items-center py-12">
+              <Text className="text-gray-500 italic">No items in cart. Start an order!</Text>
+            </View>
+          )}
+        />
+
+        {/* Order Status Display */}
+        <View className="flex-row items-center justify-between mt-2">
+          <Text className="text-gray-400 text-sm">Order Type: Takeaway</Text>
+          <Text className="text-gray-400 text-sm">{cart.length} Items</Text>
         </View>
       </View>
 
       {/* Summary and pay button */}
-      <View>
+      <View className="flex-shrink-0 mt-4">
         <CartSummary
-          subtotal={useCartStore((s) => s.getSubtotal())}
-          tax={useCartStore((s) => s.getTax())}
+          subtotal={subtotal}
+          tax={tax}
           total={total}
         />
+        {/* TODO: Pay connection here*/}
         <PayButton total={total} />
       </View>
     </View>
