@@ -5,9 +5,10 @@ import { X } from 'lucide-react-native';
 
 interface CartItemProps {
   item: CartItemType;
+  onDelete: (itemId: string) => void;
 }
 
-export const CartItem = ({ item }: CartItemProps) => {
+export const CartItem = ({ item, onDelete }: CartItemProps) => {
   const itemTotal = (item.price * item.quantity).toFixed(2);
 
   return (
@@ -23,7 +24,7 @@ export const CartItem = ({ item }: CartItemProps) => {
 
         {/* Indicator for notes*/}
         {item.notes ? (
-          <Text className="text-yellow-400 text-xs italic ml-2">(Note)</Text>
+          <Text className="text-yellow-400 text-xs italic ml-2">{item.notes}</Text>
         ) : null}
       </View>
 
@@ -33,7 +34,10 @@ export const CartItem = ({ item }: CartItemProps) => {
           ${itemTotal}
         </Text>
         {/* Delete button */}
-        <TouchableOpacity className="p-1 rounded-full bg-gray-700">
+        <TouchableOpacity
+          className="p-1 rounded-full bg-gray-700"
+          onPress={() => onDelete(item.id)}
+        >
           <X size={14} color="#EF4444" />
         </TouchableOpacity>
       </View>
