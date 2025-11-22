@@ -36,7 +36,8 @@ export const ProductCard = ({ product, onPress }: ProductCardProps) => {
 
       {/* Bottom Section: Product Details  */}
       <View className="flex-1 justify-between items-start">
-        <Text className="text-white font-semibold text-sm line-clamp-2" numberOfLines={2}>
+        <Text className="text-white font-semibold text-sm flex-1" numberOfLines={2} ellipsizeMode="tail"
+        >
           {product.name}
         </Text>
         <Text className="text-indigo-400 font-bold text-lg mt-1">
