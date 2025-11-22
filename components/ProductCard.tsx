@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { Utensils } from 'lucide-react-native';
+import { Settings } from 'lucide-react-native';
 import { Product } from '../data/types';
 
 interface ProductCardProps {
@@ -9,7 +9,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, onPress }: ProductCardProps) => {
-  const cardClasses = "bg-gray-700 rounded-xl p-3 border border-gray-600 shadow-md";
+  const cardClasses = "bg-zinc-800 rounded-xl p-3 border border-gray-700 shadow-md";
   const stockIndicatorClasses = product.inStock
     ? "text-green-400 font-medium text-xs"
     : "text-red-400 font-medium text-xs";
@@ -18,7 +18,7 @@ export const ProductCard = ({ product, onPress }: ProductCardProps) => {
     <TouchableOpacity
       onPress={() => onPress(product)}
       disabled={!product.inStock}
-      className={`${cardClasses} flex-col h-48 ${!product.inStock ? 'opacity-50' : ''}`}
+      className={`${cardClasses} flex-col h-56 ${!product.inStock ? 'opacity-50' : ''}`}
       activeOpacity={0.7}
     >
       {/* Top Section: Product Image  */}
@@ -29,14 +29,15 @@ export const ProductCard = ({ product, onPress }: ProductCardProps) => {
           resizeMode="cover"
         />
         {/* Placeholder for the small  icon as per Screenshot*/}
-        <View className="absolute top-2 right-2 bg-gray-800 p-1 rounded-full">
-          <Utensils size={14} color="#6B7280" />
+        <View className="absolute top-2 right-2 bg-gray-800/80 p-1 rounded-full">
+          <Settings size={14} color="#6B7280" />
         </View>
       </View>
 
       {/* Bottom Section: Product Details  */}
-      <View className="flex-1 justify-between">
-        <Text className="text-white font-semibold text-sm line-clamp-2" numberOfLines={2}>
+      <View className="flex-1 justify-between items-start">
+        <Text className="text-white font-semibold text-sm flex-1" numberOfLines={2} ellipsizeMode="tail"
+        >
           {product.name}
         </Text>
         <Text className="text-indigo-400 font-bold text-lg mt-1">

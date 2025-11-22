@@ -1,13 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { Send, Tag } from 'lucide-react-native';
+
+
 
 interface CartSummaryProps {
   subtotal: number;
   tax: number;
   total: number;
+  itemCount: number;
 }
 
-export const CartSummary = ({ subtotal, tax, total }: CartSummaryProps) => {
+export const CartSummary = ({ subtotal, tax, total, itemCount }: CartSummaryProps) => {
   const format = (value: number) => `$${value.toFixed(2)}`;
 
   return (
@@ -39,11 +43,13 @@ export const CartSummary = ({ subtotal, tax, total }: CartSummaryProps) => {
 
       {/* Buttons for discounts/Send to Kitchen */}
       <View className="flex-row justify-between items-center mt-4">
-        <TouchableOpacity className="py-2 px-4 rounded-lg border border-gray-600 bg-gray-700">
-          <Text className="text-gray-300 font-semibold">Discounts</Text>
+        <TouchableOpacity className="py-2 px-4 rounded-lg border border-gray-700 bg-gray-800 flex-row items-center">
+          <Tag size={16} color="#9CA3AF" className="mr-1" />
+          <Text className="text-white font-semibold">Discounts</Text>
         </TouchableOpacity>
-        <TouchableOpacity className="py-2 px-4 rounded-lg bg-gray-700">
-          <Text className="text-gray-300 font-semibold">Send to Kitchen (0)</Text>
+        <TouchableOpacity className="py-2 px-4 rounded-lg bg-gray-800 flex-row items-center">
+          <Text className="text-white font-semibold mr-1">Send to Kitchen ({itemCount})</Text>
+          <Send size={16} color="#9CA3AF" />
         </TouchableOpacity>
       </View>
 

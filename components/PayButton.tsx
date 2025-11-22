@@ -14,26 +14,26 @@ export const PayButton = ({ total, onPaySuccess }: PayButtonProps) => {
       return;
     }
     // For web
-    // console.log(`[PAYMENT] Processing payment for $${total.toFixed(2)}`);
-    // onPaySuccess();
+    console.log(`[PAYMENT] Processing payment for $${total.toFixed(2)}`);
+    onPaySuccess();
 
 
     // Display final total
-    Alert.alert(
-      "Payment Initiated",
-      `Final Total: $${total.toFixed(2)}\nOrder Processed Successfully!`,
-      [{
-        text: "OK",
-        onPress: onPaySuccess
-      }]
-    );
+    // Alert.alert(
+    //   "Payment Initiated",
+    //   `Final Total: $${total.toFixed(2)}\nOrder Processed Successfully!`,
+    //   [{
+    //     text: "OK",
+    //     onPress: onPaySuccess
+    //   }]
+    // );
   };
 
   return (
     <TouchableOpacity
       onPress={handlePay}
       disabled={total === 0}
-      className={`py-4 rounded-xl items-center justify-center mt-4 ${total > 0 ? 'bg-indigo-600' : 'bg-gray-700 opacity-50'}`}
+      className={`py-4 rounded-xl items-center justify-center ${total > 0 ? 'bg-indigo-600' : 'bg-gray-700 opacity-50'}`}
     >
       <Text className="text-white text-xl font-bold">
         Pay ${total.toFixed(2)}
