@@ -24,15 +24,21 @@ const CartSection = () => {
   // const total = useCartStore((state) => state.getTotal());
   const cart = useCartStore((state) => state.cart);
   const removeItem = useCartStore((state) => state.removeItem);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   // Calculations of subtotal, total and tax
   const getSubtotal = useCartStore((s) => s.getSubtotal);
   const getTax = useCartStore((s) => s.getTax);
   const getTotal = useCartStore((s) => s.getTotal);
 
+
   const subtotal = getSubtotal();
   const tax = getTax();
   const total = getTotal();
+  const handlePaySuccess = () => {
+    // clear the global state
+    clearCart();
+  };
   return (
     <View className="flex-1 flex-col justify-between p-4">
       <View className="flex-shrink">
@@ -74,7 +80,9 @@ const CartSection = () => {
           total={total}
         />
         {/* TODO: Pay connection here*/}
-        <PayButton total={total} />
+        <PayButton total={total}
+          onPaySuccess={handlePaySuccess}
+        />
       </View>
     </View>
   );
