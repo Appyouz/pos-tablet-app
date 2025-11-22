@@ -33,7 +33,7 @@ export const PayButton = ({ total, onPaySuccess }: PayButtonProps) => {
     <TouchableOpacity
       onPress={handlePay}
       disabled={total === 0}
-      className={`py-4 rounded-xl items-center justify-center mt-4 ${total > 0 ? 'bg-indigo-600' : 'bg-gray-700 opacity-50'}`}
+      className={`py-4 rounded-xl items-center justify-center ${total > 0 ? 'bg-indigo-600' : 'bg-gray-700 opacity-50'}`}
     >
       <Text className="text-white text-xl font-bold">
         Pay ${total.toFixed(2)}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { Utensils } from 'lucide-react-native';
+import { Utensils, Settings } from 'lucide-react-native';
 import { Product } from '../data/types';
 
 interface ProductCardProps {
@@ -35,7 +35,7 @@ export const ProductCard = ({ product, onPress }: ProductCardProps) => {
       </View>
 
       {/* Bottom Section: Product Details  */}
-      <View className="flex-1 justify-between">
+      <View className="flex-1 justify-between items-start">
         <Text className="text-white font-semibold text-sm line-clamp-2" numberOfLines={2}>
           {product.name}
         </Text>
