@@ -1,56 +1,55 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, Pressable } from 'react-native';
+import { View, Text, FlatList, Dimensions, Pressable } from 'react-native';
 import { PRODUCTS, CATEGORIES } from '../data/data';
 import { CategoryFilter } from '../components/CategoryFilter';
 import { ProductCard } from '../components/ProductCard';
 import { Product } from '../data/types';
+import { ItemDetailsModal } from '../components/ItemDetailsModal';
 import { Search, ListFilter, LayoutGrid } from 'lucide-react-native';
+import { useCartStore } from '../store/cartStore';
 import { PayButton } from '../components/PayButton';
 import { CartItem } from '../components/CartItem';
 import { CartSummary } from '../components/CartSummary';
 
 
+// Get screen width for responsive calculations
+const { width } = Dimensions.get('window');
+const NUM_COLUMNS = 4;
+const ITEM_MARGIN = 16;
 
 
-
-const MOCK_CART_ITEMS: CartItemType[] = [
-  {
-    id: 'p4', name: 'Buffalo Wings', price: 8.99, categoryId: 'appetizers',
-    image: 'url', inStock: true, quantity: 1, notes: 'Extra crispy', cartItemId: 'c1'
-  }
-];
 
 const CartSection = () => {
+  const cartCount = useCartStore((state) => state.cart.length);
+  const total = useCartStore((state) => state.getTotal());
   return (
-    <View className="flex-1 flex-col justify-between">
+    <View className="flex-1 flex-col justify-between p-4">
       <View>
         <Text className="text-gray-400 text-sm">Customer</Text>
-        <View className="flex-row items-center my-2">
-          <Text className="text-white text-lg font-bold mr-4">+ Add Customer</Text>
-          <Text className="text-gray-500 text-sm">ORDER_17639661833981</Text>
-        </View>
+        <Text className="text-white text-lg font-bold mr-4 my-2">+ Add Customer</Text>
         <Text className="text-white text-2xl font-bold mb-4">Cart</Text>
+        <Text className="text-gray-400">Items in Cart: {cartCount}</Text>
 
         {/* Cart List */}
-        {/* TODO: Implement FlatList/ScrollView for this section*/}
-        <View className="max-h-1/2">
-          {MOCK_CART_ITEMS.map(item => (
-            <CartItem key={item.cartItemId} item={item} />
-          ))}
+        <View className="max-h-1/2 mt-4">
+          {/* Placeholder*/}
+          <Text className="text-gray-500 italic">Cart items will appear here...</Text>
         </View>
       </View>
 
-      {/*  Summary and pay button */}
+      {/* Summary and pay button */}
       <View>
-        <CartSummary subtotal={8.99} tax={0.90} total={9.89} />
-        <PayButton total={9.89} />
+        <CartSummary
+          subtotal={useCartStore((s) => s.getSubtotal())}
+          tax={useCartStore((s) => s.getTax())}
+          total={total}
+        />
+        <PayButton total={total} />
       </View>
     </View>
   );
 };
 
-const NUM_COLUMNS = 4;
-const ITEM_MARGIN = 16;
 
 
 const MenuSection = () => {
@@ -59,12 +58,27 @@ const MenuSection = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  // Get the action from Zustand store
+  const addItem = useCartStore((state) => state.addItem);
+
   // Filtering Logic
   const filteredProducts = PRODUCTS.filter(p => p.categoryId === selectedCategory);
 
+  // Hnadlers
   const handleProductPress = (product: Product) => {
     setSelectedProduct(product);
     setIsModalVisible(true);
+  };
+
+  const handleAddToCart = (product: Product, quantity: number, notes: string) => {
+    addItem(product, quantity, notes);
+    setSelectedProduct(null);
+    setIsModalVisible(false);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProduct(null);
+    setIsModalVisible(false);
   };
 
   return (
@@ -73,7 +87,6 @@ const MenuSection = () => {
       {/* Top Bar */}
       <View className="flex-row items-center justify-between pb-2 mb-4 border-b border-gray-700">
         <Text className="text-white text-xl font-bold">Order Line</Text>
-
         <View className="flex-row items-center">
           <Pressable className="p-2 ml-2 bg-indigo-700 rounded-lg">
             <LayoutGrid size={20} color="white" />
@@ -102,27 +115,34 @@ const MenuSection = () => {
         columnWrapperStyle={{ gap: ITEM_MARGIN, marginBottom: ITEM_MARGIN }}
         renderItem={({ item }) => (
           <View className="flex-1" style={{ maxWidth: `${100 / NUM_COLUMNS}%` }}>
-            <ProductCard product={item} onPress={handleProductPress} />
+            <ProductCard product={item} onPress={() => handleProductPress(item)} />
           </View>
         )}
       />
 
-      {/* TODO: Item Details Modal rendering here */}
+      <ItemDetailsModal
+        isVisible={isModalVisible}
+        product={selectedProduct}
+        onClose={handleCloseModal}
+        onAddToCart={handleAddToCart}
+      />
     </View>
   );
 };
 
 export default function OrderScreen() {
   return (
-    <View className="flex-1 flex-row bg-gray-900">
 
+    <View className="flex-1 flex-row">
       {/* Left Column: Cart/Bill Section (35% width) */}
-      <View className="w-[35%] rounded-xl bg-gray-800 p-4">
+
+      <View className="w-[35%] rounded-xl bg-gray-800 border border-gray-700 shadow-lg">
         <CartSection />
       </View>
 
       {/* Right Column: Menu Section (65% width) */}
-      <View className="w-[65%] ml-4 rounded-xl bg-gray-800 p-4">
+
+      <View className="w-[65%] ml-4 rounded-xl bg-gray-800 border border-gray-700 shadow-lg p-4">
         <MenuSection />
       </View>
     </View>
