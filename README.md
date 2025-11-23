@@ -1,5 +1,29 @@
 # Tablet POS Interface Prototype (React Native / Expo)
 
+
+<table width="100%">
+  <tr>
+    <td align="center" width="33%">
+      <img src="https://raw.githubusercontent.com/Appyouz/pos-tablet-app/refs/heads/main/assets/Onorderscreen.png" width="90%" alt="Screenshot of the AbaTask todo list"/>
+      <br>
+     <b> Order Screen</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="https://raw.githubusercontent.com/Appyouz/pos-tablet-app/refs/heads/main/assets/product-page.png" width="90%" alt="Screenshot of the AbaTask 20-minute focus timer"/>
+      <br>
+      <b>Product Detail </b>
+    </td>
+    <td align="center" width="33%">
+      <img src="https://raw.githubusercontent.com/Appyouz/pos-tablet-app/refs/heads/main/assets/cart-full.png" width="90%" alt="Screenshot of the AbaTask Archive list"/>
+      <br>
+      <b>Cart Full </b>
+    </td>
+  </tr>
+</table>
+
+---
+
+
 ## Project Objective
 
 This project is a functional prototype of a Point of Sale (POS) Order Processing Screen, designed for tablet devices in landscape orientation. The objective was to recreate the attached interface screenshots, demonstrating proficiency in the specified modern React Native tech stack and clean UI/UX implementation.
